@@ -3,6 +3,7 @@ class selecaoBot():
     def __init__(self):
         self.money = 100000
         self.nom = "mdr"
+        self.truc ="rems"
 
     def process_candle(self, candle_msg:str):
         """This function is called when a new candle_msg is received.
@@ -17,3 +18,6 @@ class selecaoBot():
     
     def Nom(self):
         return self.nom 
+
+    def machin (self):
+        return self.truc 
