@@ -1,9 +1,12 @@
+import json
 class selecaoBot():
 
-    def __init__(self):
-        self.money = 100000
-        self.nom = "mdr"
-        self.truc ="rems"
+    def __init__(self,client):
+        self.client = client
+        self.moyenne_aapl = 0
+        self.count_aapl = 0
+        self.total_aapl = 0
+        self.previous_price = 0
 
     def process_candle(self, candle_msg:str):
         """This function is called when a new candle_msg is received.
@@ -12,12 +15,13 @@ class selecaoBot():
 
             Note that there are list, so you can have multiple candles in one message.
         """
-
-    def gains(self):
-        return self.money
-    
-    def Nom(self):
-        return self.nom 
-
-    def machin (self):
-        return self.truc 
+        candle_dict = json.loads(candle_msg)
+        for k, v in candle_dict.items():
+            if 'AAPL' == k:
+                self.count_aapl += 1
+                self.total_aapl += v['c']
+              #  print("Moyenne APPLE :", self.total_aapl / self.count_aapl)
+                if v['c'] < self.previous_price:
+                    self.client.sell(k, 1)
+                elif self.client.money > v['c']:
+                    self.client.buy(k, 1)
